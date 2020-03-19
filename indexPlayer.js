@@ -5,13 +5,15 @@ const fs = require("fs");
 const ytdl = require("ytdl-core")
 
 const token = "Njg4MDc5MDMwMjg0NDUxODcz.XmvLOw.DFxNoS8ktrc33KeMIXy3l7EWok8";
+var userData;
+const hubbi = ytdl("https://www.youtube.com/watch?v=uIIyMj9pt3M", {filter: "audioonly"});
 
 client.on("ready", function(){
     console.log("Ready");
     // Read user data
     client.channels.fetch("688082868110491915").then(channel => {
         channel.join().then(connection => {
-            connection.play(ytdl("https://www.youtube.com/watch?v=uIIyMj9pt3M", {filter: "audioonly"}), {volume: 0.5, seek: 41.8});
+            connection.play(ytdl(hubbi, {volume: 0.5, seek: 41.8});
         });
     })
     userData = JSON.parse(fs.readFileSync("file.json", "utf8"));
