@@ -1,34 +1,55 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const CSGameState = new(require("cs-gamestate"))(3000, "127.0.0.0");
+const CSGameState = new(require("cs-gamestate"))(3002, "127.0.0.1");
 const fs = require("fs");
 const ytdl = require("ytdl-core")
 
 const token = "Njg4MDc5MDMwMjg0NDUxODcz.XmvLOw.DFxNoS8ktrc33KeMIXy3l7EWok8";
-var userData;
-const hubbi = ytdl("https://www.youtube.com/watch?v=uIIyMj9pt3M", {filter: "audioonly"});
+var winSongs;
+var voiceConnection;
 
 client.on("ready", function(){
     console.log("Ready");
     // Read user data
-    client.channels.fetch("688082868110491915").then(channel => {
-        channel.join().then(connection => {
-            connection.play(ytdl(hubbi, {volume: 0.5, seek: 41.8});
-        });
-    })
-    userData = JSON.parse(fs.readFileSync("file.json", "utf8"));
+    winSongs = JSON.parse(fs.readFileSync("file.json", "utf8"));
 })
 
+/*
 CSGameState.on("round.win_team", (round_win, oldRound, data) =>{
-    console.log("Win");
+    console.log("change");
+    winSongs = ["https://www.youtube.com/watch?v=uIIyMj9pt3M", "https://www.youtube.com/watch?v=1ZagrczctTI", "https://www.youtube.com/watch?v=kKU5qx02LcY"];
     if(round_win == data.player.team){
         client.channels.fetch("688082868110491915").then(channel => {
             channel.join().then(connection => {
-                connection.play(ytdl("https://www.youtube.com/watch?v=uIIyMj9pt3M", {begin: "1m20s"}));
-            });
+                connection.play(ytdl("https://www.youtube.com/watch?v=kKU5qx02LcY", {filter: "audioonly"}), {volume: 0.5, seek: 0});
+            })
         })
     }
-})
+    /*
+        client.channels.fetch("688082868110491915").then(channel => {
+            channel.join().then(connection => {
+                const dispatcher = connection.play(ytdl("https://www.youtube.com/watch?v=kKU5qx02LcY", {filter: "audioonly"}), {volume: 0.5, seek: 0});
+                })
+        })
+    }
+    if(round_win != data.player.team && round_win != undefined){
+        client.channels.fetch("688082868110491915").then(channel => {
+            channel.join().then(connection => {
+                const dispatcher = connection.play(ytdl("https://www.youtube.com/watch?v=u0jq42xgTzo", {filter: "audioonly"}), {volume: 0.5});
+                })
+        })
+    }
+    if(round_win == undefined){
+        client.channels.fetch("688082868110491915").then(channel => {
+            channel.join().then(connection => {
+                const dispatcher = connection.play(ytdl(winSongs[1], {filter: "audioonly"}), {volume: 0});
+                })
+        })
+    }
+});
+*/
+
+
 
 var connect;
 var channel;
@@ -54,6 +75,41 @@ client.on("message", (msg) => {
                 //console.log(command);
                 availableCommands(msg.author);
                 break;
+            case "Win":
+                    client.channels.fetch("687730896178250017").then(channel => {
+                        channel.join().then(connection => {
+                            const dispatcher = connection.play(ytdl("https://www.youtube.com/watch?v=uIIyMj9pt3M", {filter: "audioonly"}), {volume: 0.5, seek: 49.5});
+                            })
+                    });
+                    break;
+            case "Other":
+                    client.channels.fetch("687730896178250017").then(channel => {
+                        channel.join().then(connection => {
+                            const dispatcher = connection.play(ytdl("https://www.youtube.com/watch?v=1ZagrczctTI", {filter: "audioonly"}), {volume: 0.5, seek: 0});
+                            })
+                    });
+                    break;
+            case "Ez":
+                    client.channels.fetch("687730896178250017").then(channel => {
+                        channel.join().then(connection => {
+                            const dispatcher = connection.play(ytdl("https://www.youtube.com/watch?v=kKU5qx02LcY", {filter: "audioonly"}), {volume: 0.5, seek: 0});
+                            })
+                    });
+                    break;
+            case "Loss":
+                    client.channels.fetch("687730896178250017").then(channel => {
+                        channel.join().then(connection => {
+                            const dispatcher = connection.play(ytdl("https://www.youtube.com/watch?v=u0jq42xgTzo", {filter: "audioonly"}), {volume: 1, seek: 0});
+                            })
+                    });
+                    break;
+            case "Stop":
+                    client.channels.fetch("687730896178250017").then(channel => {
+                        channel.join().then(connection => {
+                            const dispatcher = connection.play(ytdl("https://www.youtube.com/watch?v=uIIyMj9pt3M", {filter: "audioonly"}), {volume: 0, seek: 49.5});
+                            })
+                    });
+                    break;
             case "!steamid":
                 if(commandContent.match(/^\d{17}$/)){
                     //If steamid is already
